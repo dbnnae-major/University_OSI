@@ -4,5 +4,7 @@ build/
 # Clangd
 .cache/
 
+*.Zone.Identifier
+
 # Python
 __pycache__/
