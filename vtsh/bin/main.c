@@ -1,4 +1,5 @@
 #include <linux/sched.h>
+#include <sched.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,6 @@
 #define MAX_INPUT 256
 #define MAX_ARGS 8
 #define E9 1000000000.0
-#define STACK_SIZE ((size_t)(1024 * 1024))
 
 int parse_input(char* input, char* argv[]) {
   int argc = 0;
@@ -34,12 +34,8 @@ void run_command(char* argv[]) {
   struct timespec end;
   struct clone_args args;
 
-  char child_stack[STACK_SIZE];
-
   memset(&args, 0, sizeof(args));
-  args.flags = SIGCHLD;
-  args.stack = (unsigned long)(child_stack + STACK_SIZE);
-  args.stack_size = STACK_SIZE;
+  args.exit_signal = SIGCHLD;
   pid_t pid = -1;
 
   clock_gettime(CLOCK_MONOTONIC, &start);
