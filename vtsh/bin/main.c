@@ -8,28 +8,20 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
-#include <vtsh.h>
+
+#include "parser.h"
+#include "vtsh.h"
 
 #define MAX_INPUT 256
-#define MAX_ARGS 8
 #define E9 1000000000.0
 
-int parse_input(char* input, char* argv[]) {
-  int argc = 0;
-
-  char* save = NULL;
-  char* frag = strtok_r(input, " ", &save);
-
-  while (frag != NULL && argc < MAX_ARGS - 1) {
-    argv[argc++] = frag;
-    frag = strtok_r(NULL, " ", &save);
+static void reap_background(void) {
+  int status = 0;
+  while (waitpid(-1, &status, WNOHANG) > 0) {
   }
-
-  argv[argc] = NULL;
-  return argc;
 }
 
-void run_command(char* argv[]) {
+void run_command(char* argv[], int background) {
   struct timespec start;
   struct timespec end;
   struct clone_args args;
@@ -38,7 +30,9 @@ void run_command(char* argv[]) {
   args.exit_signal = SIGCHLD;
   pid_t pid = -1;
 
-  clock_gettime(CLOCK_MONOTONIC, &start);
+  if (!background) {
+    clock_gettime(CLOCK_MONOTONIC, &start);
+  }
   pid = (pid_t)syscall(SYS_clone3, &args, sizeof(args));
 
   if (pid == -1) {
@@ -49,13 +43,18 @@ void run_command(char* argv[]) {
     execvp(argv[0], argv);
     perror("execvp failed");
     _exit(1);
-  } else {
-    waitpid(pid, NULL, 0);
-    clock_gettime(CLOCK_MONOTONIC, &end);
-    double time = (double)(end.tv_sec - start.tv_sec) +
-                  (double)(end.tv_nsec - start.tv_nsec) / E9;
-    printf("Execution time: %.6f sec\n", time);
   }
+
+  if (background) {
+    printf("[bg] pid=%d: %s\n", pid, argv[0]);
+    return;
+  }
+
+  waitpid(pid, NULL, 0);
+  clock_gettime(CLOCK_MONOTONIC, &end);
+  double time = (double)(end.tv_sec - start.tv_sec) +
+                (double)(end.tv_nsec - start.tv_nsec) / E9;
+  printf("Execution time: %.6f sec\n", time);
 }
 
 int main() {
@@ -76,14 +75,25 @@ int main() {
       break;
     }
 
-    char* argv[MAX_ARGS];
-    int argc = parse_input(input, argv);
-
-    if (argc == 0) {
+    ParsedInput parsed_input = parse_input(input);
+    if (parsed_input.count == 0) {
+      free_memory(&parsed_input);
       continue;
     }
 
-    run_command(argv);
+    for (int i = 0; i < parsed_input.count; ++i) {
+      Command* command = &parsed_input.commands[i];
+      if (!command->argv || !command->argv[0]) {
+        continue;
+      }
+
+      int background = (command->next_op == OP_BG);
+      run_command(command->argv, background);
+    }
+
+    reap_background();
+
+    free_memory(&parsed_input);
   }
 
   return 0;
