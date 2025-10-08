@@ -18,7 +18,7 @@ void free_memory(ParsedInput* input) {
   if (!input || !input->commands) {
     return;
   }
-  for (int i = 0; i < input->count; ++i) {
+  for (int i = 0; i < MAX_CMDS; ++i) {
     if (!input->commands[i].argv) {
       continue;
     }

@@ -64,7 +64,6 @@ int main() {
     printf("%s", vtsh_prompt());
 
     if (fgets(input, sizeof(input), stdin) == NULL) {
-      printf("Error of input\n");
       break;
     }
 
