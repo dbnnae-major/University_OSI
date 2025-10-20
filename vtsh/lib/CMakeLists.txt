@@ -3,6 +3,7 @@ add_library(
     STATIC
     vtsh.c
     parser.c
+    runner.c
 )
 
 target_include_directories(

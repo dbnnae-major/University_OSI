@@ -10,10 +10,10 @@
 #include <unistd.h>
 
 #include "parser.h"
+#include "runner.h"
 #include "vtsh.h"
 
 #define MAX_INPUT 256
-#define E9 1000000000.0
 
 static void reap_background(void) {
   int status = 0;
@@ -21,43 +21,9 @@ static void reap_background(void) {
   }
 }
 
-void run_command(char* argv[], int background) {
-  struct timespec start;
-  struct timespec end;
-  struct clone_args args;
-
-  memset(&args, 0, sizeof(args));
-  args.exit_signal = SIGCHLD;
-  pid_t pid = -1;
-
-  if (!background) {
-    clock_gettime(CLOCK_MONOTONIC, &start);
-  }
-  pid = (pid_t)syscall(SYS_clone3, &args, sizeof(args));
-
-  if (pid == -1) {
-    perror("clone3 failed");
-    return;
-  }
-  if (pid == 0) {
-    execvp(argv[0], argv);
-    perror("execvp failed");
-    _exit(1);
-  }
-
-  if (background) {
-    printf("[bg] pid=%d: %s\n", pid, argv[0]);
-    return;
-  }
-
-  waitpid(pid, NULL, 0);
-  clock_gettime(CLOCK_MONOTONIC, &end);
-  double time = (double)(end.tv_sec - start.tv_sec) +
-                (double)(end.tv_nsec - start.tv_nsec) / E9;
-  printf("Execution time: %.6f sec\n", time);
-}
-
 int main() {
+  (void)setvbuf(stdin, NULL, _IONBF, 0);
+
   char input[MAX_INPUT];
 
   while (1) {
