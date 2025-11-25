@@ -1,0 +1,47 @@
+* [33mcommit dcab0bfd3348a378ca82bd788b4b604206d7b21b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcode[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Wed Oct 1 21:07:27 2025 +0300
+[31m|[m 
+[31m|[m     basic shell completed
+[31m|[m 
+* [33mcommit e6fbecf81d1b0213dd7604ef79bc4323e17e299a[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Wed Oct 1 00:05:42 2025 +0300
+[31m|[m 
+[31m|[m     clone3 failed: Invalid argument
+[31m|[m 
+* [33mcommit fcb6c89fb1beab4e550b48e6123d1b43f0863fd0[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Tue Sep 30 23:13:13 2025 +0300
+[31m|[m 
+[31m|[m     fix exit + parse input
+[31m|[m 
+* [33mcommit 6da222c3178ed6d860a52b56bb8a0ee4301baf53[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Tue Sep 30 22:51:25 2025 +0300
+[31m|[m 
+[31m|[m     exit
+[31m|[m 
+* [33mcommit f378b509cfc3786eb9ff4e73e869e31f1f6e3b79[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Tue Sep 30 22:32:03 2025 +0300
+[31m|[m 
+[31m|[m     Remove useless files
+[31m|[m 
+* [33mcommit 5947ef559d5f63273aae73e712cdfe30bb777d74[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Tue Sep 30 22:29:27 2025 +0300
+[31m|[m 
+[31m|[m     Remove Zone.Identifier files
+[31m|[m 
+* [33mcommit 497675c9f706d412f7e6107e52c0b1158d9a8016[m
+[31m|[m Author: dbnnae <artemd321@gmail.com>
+[31m|[m Date:   Tue Sep 30 22:21:17 2025 +0300
+[31m|[m 
+[31m|[m     No changes
+[31m|[m 
+* [33mcommit f82e5c70a96bd408d33618f1d2d6efbf58d110b4[m
+  Author: dbnnae <66110495+dbnnae-major@users.noreply.github.com>
+  Date:   Tue Sep 30 22:10:08 2025 +0300
+  
+      Initial commit

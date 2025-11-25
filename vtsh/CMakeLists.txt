@@ -11,3 +11,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(bin)
 add_subdirectory(lib)
+add_subdirectory(loaders/io)
+add_subdirectory(loaders/cpu)
+add_subdirectory(loaders/ema)
